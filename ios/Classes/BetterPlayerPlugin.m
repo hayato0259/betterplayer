@@ -398,6 +398,8 @@ bool _remoteCommandsInitialized = false;
 
             [player setTrackParameters:width: height : bitrate];
             result(nil);
+        } else if ([@"setupPipController" isEqualToString:call.method]){
+            [player setupPipController];
         } else if ([@"enablePictureInPicture" isEqualToString:call.method]){
             double left = [argsMap[@"left"] doubleValue];
             double top = [argsMap[@"top"] doubleValue];
@@ -416,6 +418,22 @@ bool _remoteCommandsInitialized = false;
         } else if ([@"disablePictureInPicture" isEqualToString:call.method]){
             [player disablePictureInPicture];
             [player setPictureInPicture:false];
+        } else if ([@"setCanStartPictureInPictureAutomaticallyFromInline" isEqualToString:call.method]){
+            [player setCanStartPictureInPictureAutomaticallyFromInline:[argsMap[@"canStartPictureInPictureAutomaticallyFromInline"] boolValue]];
+        } else if ([@"setFrame" isEqualToString:call.method]){
+            double left = [argsMap[@"left"] doubleValue];
+            double top = [argsMap[@"top"] doubleValue];
+            double width = [argsMap[@"width"] doubleValue];
+            double height = [argsMap[@"height"] doubleValue];
+            [player setFrame:CGRectMake(left, top, width, height)];
+        } else if ([@"updateFrame" isEqualToString:call.method]){
+            double left = [argsMap[@"left"] doubleValue];
+            double top = [argsMap[@"top"] doubleValue];
+            double width = [argsMap[@"width"] doubleValue];
+            double height = [argsMap[@"height"] doubleValue];
+            [player updateFrame:CGRectMake(left, top, width, height)];
+        } else if ([@"removeFrame" isEqualToString:call.method]){
+            [player removeFrame];
         } else if ([@"setAudioTrack" isEqualToString:call.method]){
             NSString* name = argsMap[@"name"];
             int index = [argsMap[@"index"] intValue];

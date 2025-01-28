@@ -38,6 +38,7 @@ AVPictureInPictureController *_pipController;
 
 - (nonnull UIView *)view {
     BetterPlayerView *playerView = [[BetterPlayerView alloc] initWithFrame:CGRectZero];
+    playerView.userInteractionEnabled = false;
     playerView.player = _player;
     return playerView;
 }
@@ -662,6 +663,37 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         }
     }
 }
+
+- (void) setFrame:(CGRect) frame {
+    // Create new controller passing reference to the AVPlayerLayer
+    self._playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    UIViewController* vc = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    self._playerLayer.frame = frame;
+    self._playerLayer.needsDisplayOnBoundsChange = YES;
+    //  [self._playerLayer addObserver:self forKeyPath:readyForDisplayKeyPath options:NSKeyValueObservingOptionNew context:nil];
+    [vc.view.layer addSublayer:self._playerLayer];
+    vc.view.layer.needsDisplayOnBoundsChange = YES;
+    if (@available(iOS 9.0, *)) {
+        _pipController = NULL;
+    }
+    [self setupPipController];
+}
+
+- (void) updateFrame:(CGRect) frame {
+    self._playerLayer.frame = frame;
+}
+
+- (void)removeFrame {
+    [self._playerLayer removeFromSuperlayer];
+}
+
+- (void)setCanStartPictureInPictureAutomaticallyFromInline:(BOOL)canStartPictureInPictureAutomaticallyFromInline {
+    if (@available(iOS 14.2, *)) {
+        _pipController.canStartPictureInPictureAutomaticallyFromInline = canStartPictureInPictureAutomaticallyFromInline;
+    }
+}
+
+
 #endif
 
 #if TARGET_OS_IOS
