@@ -677,6 +677,9 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         _pipController = NULL;
     }
     [self setupPipController];
+    if (_eventSink != nil) {
+        _eventSink(@{@"event" : @"pipWillStart"});
+    }
 }
 
 - (void) updateFrame:(CGRect) frame {
@@ -708,11 +711,15 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (void)pictureInPictureControllerWillStopPictureInPicture:(AVPictureInPictureController *)pictureInPictureController  API_AVAILABLE(ios(9.0)){
-
+    if (_eventSink != nil) {
+        _eventSink(@{@"event" : @"pipWillStop"});
+    }
 }
 
 - (void)pictureInPictureControllerWillStartPictureInPicture:(AVPictureInPictureController *)pictureInPictureController {
-
+    if (_eventSink != nil) {
+        _eventSink(@{@"event" : @"pipWillStart"});
+    }
 }
 
 - (void)pictureInPictureController:(AVPictureInPictureController *)pictureInPictureController failedToStartPictureInPictureWithError:(NSError *)error {

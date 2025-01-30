@@ -34,6 +34,7 @@ class VideoPlayerValue {
     this.speed = 1.0,
     this.errorDescription,
     this.isPip = false,
+    this.isPipWillStart = false,
   });
 
   /// Returns an instance with a `null` [Duration].
@@ -87,6 +88,9 @@ class VideoPlayerValue {
   ///Is in Picture in Picture Mode
   final bool isPip;
 
+  /// Is in Picture in Picture Mode will start
+  final bool isPipWillStart;
+
   /// Indicates whether or not the video has been loaded and is ready to play.
   bool get initialized => duration != null;
 
@@ -122,6 +126,7 @@ class VideoPlayerValue {
     String? errorDescription,
     double? speed,
     bool? isPip,
+    bool? isPipWillStart,
   }) {
     return VideoPlayerValue(
       duration: duration ?? this.duration,
@@ -136,6 +141,7 @@ class VideoPlayerValue {
       speed: speed ?? this.speed,
       errorDescription: errorDescription ?? this.errorDescription,
       isPip: isPip ?? this.isPip,
+      isPipWillStart: isPipWillStart ?? this.isPipWillStart,
     );
   }
 
@@ -251,6 +257,12 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
         case VideoEventType.pipStop:
           value = value.copyWith(isPip: false);
           break;
+        case VideoEventType.pipWillStart:
+          value = value.copyWith(isPipWillStart: true);
+          break;
+        case VideoEventType.pipWillStop:
+          value = value.copyWith(isPipWillStart: false);
+          break;
         case VideoEventType.unknown:
           break;
       }
@@ -363,27 +375,10 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   ///
   /// This will load the file from the file-URI given by:
   /// `'file://${file.path}'`.
-  Future<void> setFileDataSource(File file,
-      {bool? showNotification,
-      String? title,
-      String? author,
-      String? imageUrl,
-      String? notificationChannelName,
-      Duration? overriddenDuration,
-      String? activityName,
-      String? clearKey}) {
+  Future<void> setFileDataSource(File file, {bool? showNotification, String? title, String? author, String? imageUrl, String? notificationChannelName, Duration? overriddenDuration, String? activityName, String? clearKey}) {
     return _setDataSource(
       DataSource(
-          sourceType: DataSourceType.file,
-          uri: 'file://${file.path}',
-          showNotification: showNotification,
-          title: title,
-          author: author,
-          imageUrl: imageUrl,
-          notificationChannelName: notificationChannelName,
-          overriddenDuration: overriddenDuration,
-          activityName: activityName,
-          clearKey: clearKey),
+          sourceType: DataSourceType.file, uri: 'file://${file.path}', showNotification: showNotification, title: title, author: author, imageUrl: imageUrl, notificationChannelName: notificationChannelName, overriddenDuration: overriddenDuration, activityName: activityName, clearKey: clearKey),
     );
   }
 

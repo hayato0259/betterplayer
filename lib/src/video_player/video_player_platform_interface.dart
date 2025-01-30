@@ -424,14 +424,7 @@ class VideoEvent {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is VideoEvent &&
-            runtimeType == other.runtimeType &&
-            key == other.key &&
-            eventType == other.eventType &&
-            duration == other.duration &&
-            size == other.size &&
-            listEquals(buffered, other.buffered);
+    return identical(this, other) || other is VideoEvent && runtimeType == other.runtimeType && key == other.key && eventType == other.eventType && duration == other.duration && size == other.size && listEquals(buffered, other.buffered);
   }
 
   @override
@@ -472,6 +465,12 @@ enum VideoEventType {
 
   /// Picture in picture mode has been dismissed
   pipStop,
+
+  /// Picture in picture mode will start
+  pipWillStart,
+
+  /// Picture in picture mode will stop
+  pipWillStop,
 
   /// An unknown event has been received.
   unknown,

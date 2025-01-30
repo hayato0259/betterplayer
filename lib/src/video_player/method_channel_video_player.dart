@@ -453,6 +453,18 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
             key: key,
           );
 
+        case 'pipWillStart':
+          return VideoEvent(
+            eventType: VideoEventType.pipWillStart,
+            key: key,
+          );
+
+        case 'pipWillStop':
+          return VideoEvent(
+            eventType: VideoEventType.pipWillStop,
+            key: key,
+          );
+
         default:
           return VideoEvent(
             eventType: VideoEventType.unknown,
