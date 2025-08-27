@@ -687,7 +687,10 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (void)removeFrame {
-    [self._playerLayer removeFromSuperlayer];
+    if (self._playerLayer) {
+        [self._playerLayer removeFromSuperlayer];
+        self._playerLayer = nil;
+    }
 }
 
 - (void)setCanStartPictureInPictureAutomaticallyFromInline:(BOOL)canStartPictureInPictureAutomaticallyFromInline {
