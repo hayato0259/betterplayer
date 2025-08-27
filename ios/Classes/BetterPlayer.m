@@ -689,6 +689,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 - (void)removeFrame {
     if (self._playerLayer) {
         [self._playerLayer removeFromSuperlayer];
+        self._playerLayer.frame = CGRectZero;
         self._playerLayer = nil;
     }
 }
